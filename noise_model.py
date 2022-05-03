@@ -4,7 +4,7 @@ import random
 import numpy as np
 import cv2
 from PIL import Image
-
+from crypto import encrypt_file
 
 def get_noise_model(noise_type="gaussian,0,50"):
     tokens = noise_type.split(sep=",")
@@ -66,12 +66,21 @@ def get_noise_model(noise_type="gaussian,0,50"):
             print(type(img))
             im = Image.fromarray(img)
             im.save("temp.ppm")
-            !head -n 3 temp.ppm > header.txt
-            !tail -n +4 temp.ppm > body.bin
+            f = open("temp.ppm", "rb")
+            print(f.readline())
+            print(f.readline())
+            print(f.readline())
+            print(f.readline())
+            # f2 = open("temp2.txt", "w")
+            # f2.writelines(f.readlines()[3:])
+            f.close()
+            # f2.close()
+            # !head -n 3 temp.ppm > header.txt
+            # !tail -n +4 temp.ppm > body.bin
 
-            !openssl enc -aes-128-cbc -nosalt -pass pass:"random" -in body.bin -out body.ecb.bin 2> random
-            !cat header.txt body.ecb.bin > temp.ecb.ppm
-            img = cv2.imread("temp.ecb.ppm")
+            # !openssl enc -aes-128-cbc -nosalt -pass pass:"random" -in body.bin -out body.ecb.bin 2> random
+            # !cat header.txt body.ecb.bin > temp.ecb.ppm
+            # img = cv2.imread("temp.ecb.ppm")
             return img
         return add_encryption_noise
     else:
