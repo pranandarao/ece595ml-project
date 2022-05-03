@@ -63,7 +63,7 @@ def get_noise_model(noise_type="gaussian,0,50"):
         return add_impulse_noise
     elif tokens[0] == "aes":
         def add_encryption_noise(img):
-            print(type(img))
+            # print(type(img))
             im = Image.fromarray(img)
             im.save("temp.ppm")
             f = open("temp.ppm", "rb")
