@@ -76,7 +76,7 @@ def get_noise_model(noise_type="gaussian,0,50"):
             # f2.writelines(f.readlines()[3:])
             f.close()
             f2.close()
-            encrypt_file('abcdefghji123456', 'temp2.txt')
+            encrypt_file('abcdefghji123456'.encode('utf8'), 'temp2.txt')
             f3 = open("temp2.txt.encrypted", "rb")
             enclines = f3.readlines()
             f4 = open("enctemp.ppm", "wb")
