@@ -3,6 +3,7 @@ import string
 import random
 import numpy as np
 import cv2
+from PIL import Image
 
 
 def get_noise_model(noise_type="gaussian,0,50"):
@@ -60,6 +61,19 @@ def get_noise_model(noise_type="gaussian,0,50"):
             img = img * (1 - mask) + noise * mask
             return img.astype(np.uint8)
         return add_impulse_noise
+    elif tokens[0] == "aes":
+        def add_encryption_noise(img):
+            print(type(img))
+            im = Image.fromarray(img)
+            im.save("temp.ppm")
+            !head -n 3 temp.ppm > header.txt
+            !tail -n +4 temp.ppm > body.bin
+
+            !openssl enc -aes-128-cbc -nosalt -pass pass:"random" -in body.bin -out body.ecb.bin 2> random
+            !cat header.txt body.ecb.bin > temp.ecb.ppm
+            img = cv2.imread("temp.ecb.ppm")
+            return img
+        return add_encryption_noise
     else:
         raise ValueError("noise_type should be 'gaussian', 'clean', 'text', or 'impulse'")
 
