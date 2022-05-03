@@ -68,12 +68,14 @@ def get_noise_model(noise_type="gaussian,0,50"):
             im.save("temp.ppm")
             f = open("temp.ppm", "rb")
             lines = f.readlines()
-            print(lines)
-            # f2 = open("temp2.txt", "wb")
-            
+            header = lines[0:3]
+            body = lines[3:]
+            # print(lines)
+            f2 = open("temp2.txt", "wb")
+            f2.writelines(body)
             # f2.writelines(f.readlines()[3:])
             f.close()
-            # f2.close()
+            f2.close()
             # !head -n 3 temp.ppm > header.txt
             # !tail -n +4 temp.ppm > body.bin
 
